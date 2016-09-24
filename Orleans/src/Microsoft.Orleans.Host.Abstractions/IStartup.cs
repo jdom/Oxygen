@@ -7,7 +7,7 @@ namespace Microsoft.Orleans.Host.Abstractions
 {
     public interface IStartup
     {
-        IEnumerable<Type> Members { get; }
+        IEnumerable<Type> Members { get; } // not sure I understand why this?
         IServiceProvider ConfigureServices(IServiceCollection services);
     }
 }

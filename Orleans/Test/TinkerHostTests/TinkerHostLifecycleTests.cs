@@ -83,7 +83,7 @@ namespace TinkerHostTests
             public Thingy(ILifecycleObservable lifecycle, ILoggerFactory loggerFactory)
             {
                 logger = loggerFactory.CreateLogger<Thingy>();
-                lifecycle.Subscribe(this);
+                lifecycle.Subscribe(this); //<-- passing this before finishing constructing is dangerous (although practical)
             }
 
             public Task OnInitialize()
