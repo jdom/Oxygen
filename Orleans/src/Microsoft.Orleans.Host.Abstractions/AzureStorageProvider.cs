@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Microsoft.Orleans.Host.Abstractions
@@ -10,11 +7,11 @@ namespace Microsoft.Orleans.Host.Abstractions
     // this would go into the azure storage providers DLL
     public static class AzureStorageProviderExtensions
     {
-        public static void AddAzureStorage(this IStorageProvidersFactory factory, string providerName, string connectionString)
+        public static void AddAzureStorage(this IStorageProvidersBuilder factory, string providerName, string connectionString)
         {
             var concreteFactory = ActivatorUtilities.CreateInstance<AzureStorageProviderFactory>(factory.Silo.ApplicationServices);
             var provider = concreteFactory.Create(providerName, connectionString);
-            factory.AddProvider(providerName, provider);
+            factory.AddProvider(provider);
         }
 
     }

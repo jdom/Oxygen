@@ -6,38 +6,39 @@ using System.Threading.Tasks;
 namespace Microsoft.Orleans.Host.Abstractions
 {
     // this would go into the (optional) storage providers DLL.
-    public interface IStorageProvidersFactory
+    public interface IStorageProvidersBuilder
     {
         ISiloBuilder Silo { get; }
-        void AddProvider(string name, IStorageProvider provider);
+        void AddProvider(IStorageProvider provider);
     }
 
     public static class SiloStorageProviderExtensions
     {
         public static void AddStorageProviders(this IServiceCollection services)
         {
-            services.AddSingleton<IStorageProvidersFactory, StorageProvidersFactory>();
+            services.AddSingleton<IStorageProvidersBuilder, StorageProvidersBuilder>();
         }
-        public static void ConfigureStorageProviders(this ISiloBuilder silo, Action<IStorageProvidersFactory> configureMethod)
+        public static void ConfigureStorageProviders(this ISiloBuilder silo, Action<IStorageProvidersBuilder> configureMethod)
         {
-            var factory = silo.ApplicationServices.GetRequiredService<IStorageProvidersFactory>();
+            var factory = silo.ApplicationServices.GetRequiredService<IStorageProvidersBuilder>();
             configureMethod(factory);
         }
 
     }
 
-    public class StorageProvidersFactory : IStorageProvidersFactory
+    public class StorageProvidersBuilder : IStorageProvidersBuilder
     {
+        // these would then be passed on to the provider manager so it can manage their lifetime
         private Dictionary<string, IStorageProvider> providers = new Dictionary<string, IStorageProvider>();
-        public StorageProvidersFactory(ISiloBuilder silo)
+        public StorageProvidersBuilder(ISiloBuilder silo)
         {
             Silo = silo;
         }
         public ISiloBuilder Silo { get; }
 
-        public void AddProvider(string name, IStorageProvider provider)
+        public void AddProvider(IStorageProvider provider)
         {
-            this.providers.Add(name, provider);
+            this.providers.Add(provider.Name, provider);
         }
     }
 
