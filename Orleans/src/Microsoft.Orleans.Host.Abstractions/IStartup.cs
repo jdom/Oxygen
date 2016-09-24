@@ -9,5 +9,6 @@ namespace Microsoft.Orleans.Host.Abstractions
     {
         IEnumerable<Type> Members { get; } // not sure I understand why this?
         IServiceProvider ConfigureServices(IServiceCollection services);
+        void Configure(ISiloBuilder silo);
     }
 }

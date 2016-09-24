@@ -52,7 +52,14 @@ namespace TinkerHostTests
                 {
                     services.AddTransient(type);
                 }
+                services.AddStorageProviders();
                 return services.BuildServiceProvider();
+            }
+
+            public void Configure(ISiloBuilder silo)
+            {
+                silo.ConfigureStorageProviders(factory => factory.AddAzureStorage("provider1", "connectionString1"));
+                silo.ConfigureStorageProviders(factory => factory.AddAzureStorage("provider2", "connectionString2"));
             }
         }
 
@@ -65,6 +72,11 @@ namespace TinkerHostTests
             }
 
             public IEnumerable<Type> Members => members;
+
+            public void Configure(ISiloBuilder silo)
+            {
+                throw new NotImplementedException();
+            }
 
             public IServiceProvider ConfigureServices(IServiceCollection services)
             {

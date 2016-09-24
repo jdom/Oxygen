@@ -52,9 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureStorageProvider.cs" />
     <Compile Include="IHost.cs" />
     <Compile Include="IHostBuilder.cs" />
+    <Compile Include="ISiloBuilder.cs" />
     <Compile Include="IStartup.cs" />
+    <Compile Include="StorageProvidersFeature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
